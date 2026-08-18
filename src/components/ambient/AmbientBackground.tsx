@@ -56,11 +56,11 @@ export function AmbientBackground() {
     detectRetina: true,
   }), [particleColor]);
 
-  if (prefersReducedMotion) return null;
+  if (prefersReducedMotion || !init) return null;
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
-      <Particles id="tsparticles" init={async (engine) => await loadSlim(engine)} options={options as any} className="h-full w-full opacity-50" />
+      <Particles id="tsparticles" options={options as any} className="h-full w-full opacity-50" />
     </div>
   );
 }

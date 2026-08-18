@@ -39,7 +39,7 @@ export function TypeFilter({ activeType, onSelectType }: TypeFilterProps) {
           onClick={() => onSelectType("favourites")}
           color="#ef4444"
         />
-        
+
         {QUICK_TYPES.map((type) => (
           <FilterChip
             key={type}
@@ -51,7 +51,7 @@ export function TypeFilter({ activeType, onSelectType }: TypeFilterProps) {
         ))}
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger className="p-0 border-0 bg-transparent cursor-pointer">
             <motion.div
               role="button"
               tabIndex={0}
@@ -77,9 +77,9 @@ export function TypeFilter({ activeType, onSelectType }: TypeFilterProps) {
                 onClick={() => onSelectType(type)}
                 className="flex items-center gap-2 cursor-pointer"
               >
-                <span 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: getTypeColor(type) }} 
+                <span
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: getTypeColor(type) }}
                 />
                 {capitalise(type)}
               </DropdownMenuItem>

@@ -21,21 +21,21 @@ interface PokemonDetailProps {
 export function PokemonDetail({ pokemon }: PokemonDetailProps) {
   const [imageError, setImageError] = useState(false);
   const { toggleSelection, isSelected, canAdd, isLoaded } = useComparison();
-  
+
   const primaryColor = getTypeColor(pokemon.types[0]?.name || "normal");
   const gradient = getTypeGradient(pokemon.types.map(t => t.name));
-  
+
   const selected = isLoaded && isSelected(pokemon.id);
 
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-8 lg:gap-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Left Column: Image & Core Info */}
       <div className="w-full md:w-5/12 flex flex-col gap-6">
-        <div 
+        <div
           className="relative w-full aspect-square rounded-3xl overflow-hidden bg-muted/20 border border-border/50 shadow-sm flex items-center justify-center p-8 group"
           style={{ background: `linear-gradient(135deg, ${primaryColor}20 0%, transparent 100%)` }}
         >
-          <div 
+          <div
             className="absolute inset-0 opacity-20 dark:opacity-10 transition-opacity duration-300"
             style={{
               background: `radial-gradient(circle at center, ${primaryColor} 0%, transparent 70%)`
@@ -50,7 +50,7 @@ export function PokemonDetail({ pokemon }: PokemonDetailProps) {
             priority
             onError={() => setImageError(true)}
           />
-          <button 
+          <button
             className="absolute top-4 right-4 z-10 p-3 rounded-full bg-background/50 backdrop-blur-md hover:bg-background/80 transition-colors"
             onClick={() => console.log("Toggle fav")}
           >
@@ -66,31 +66,31 @@ export function PokemonDetail({ pokemon }: PokemonDetailProps) {
                 {zeroPadId(pokemon.id)}
               </span>
             </div>
-            
+
             <Button
               variant={selected ? "default" : "outline"}
               size="sm"
               className="hidden md:flex"
-              onClick={() => toggleSelection({ id: pokemon.id, name: pokemon.name, spriteUrl: pokemon.officialArtworkUrl || "" })}
+              onClick={() => toggleSelection(pokemon)}
               disabled={!selected && !canAdd}
             >
               <Scale className="w-4 h-4 mr-2" />
               {selected ? "Remove" : "Compare"}
             </Button>
           </div>
-          
+
           <div className="flex flex-wrap gap-2 mt-4 items-center justify-between">
             <div className="flex flex-wrap gap-2">
               {pokemon.types.map((t) => (
                 <TypeBadge key={t.name} type={t.name} className="text-base px-4 py-1" />
               ))}
             </div>
-            
+
             <Button
               variant={selected ? "default" : "outline"}
               size="sm"
               className="md:hidden"
-              onClick={() => toggleSelection({ id: pokemon.id, name: pokemon.name, spriteUrl: pokemon.officialArtworkUrl || "" })}
+              onClick={() => toggleSelection(pokemon)}
               disabled={!selected && !canAdd}
             >
               <Scale className="w-4 h-4 mr-2" />
@@ -133,8 +133,8 @@ export function PokemonDetail({ pokemon }: PokemonDetailProps) {
           <h3 className="text-xl font-bold mb-4">Abilities</h3>
           <div className="flex flex-wrap gap-3">
             {pokemon.abilities.map((ability) => (
-              <Badge 
-                key={ability.name} 
+              <Badge
+                key={ability.name}
                 variant={ability.isHidden ? "outline" : "secondary"}
                 className="text-sm px-3 py-1 font-medium capitalize"
               >
@@ -149,8 +149,8 @@ export function PokemonDetail({ pokemon }: PokemonDetailProps) {
           <h3 className="text-xl font-bold mb-4">Moves</h3>
           <div className="flex flex-wrap gap-2">
             {pokemon.moves.map((move) => (
-              <Badge 
-                key={move.name} 
+              <Badge
+                key={move.name}
                 variant="outline"
                 className="bg-muted/30 hover:bg-muted/50 text-xs px-2.5 py-1 capitalize border-border/50"
               >

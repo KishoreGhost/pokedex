@@ -29,13 +29,13 @@ export default function Home() {
   const { hasPlayed, markPlayed } = useIntroPlayed();
   const [showIntro, setShowIntro] = useState(true);
   const [activeType, setActiveType] = useState<string | null>(null);
-  
+
   // Pagination State
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
   const { pokemon: listPokemon, isLoading: listLoading, error: listError, total: listTotal, loadPage } = usePokemonList();
-  const { result: searchResult, isLoading: searchLoading, error: searchError, query, setQuery, setPage: setSearchPage, setPageSize: setSearchPageSize, pokemon: searchPokemon, total: searchTotal, clearSearch } = useFuzzySearch();
+  const { isLoading: searchLoading, error: searchError, query, setQuery, setPage: setSearchPage, setPageSize: setSearchPageSize, pokemon: searchPokemon, total: searchTotal, clearSearch } = useFuzzySearch();
   const { pokemon: typePokemon, isLoading: typeLoading, error: typeError, total: typeTotal, fetchByType, clearType } = usePokemonByType();
   const { pokemon: favPokemon, isLoading: favLoading, error: favError, total: favTotal, fetchFavs, clearFavs } = useFavouritePokemon();
 
@@ -74,12 +74,12 @@ export default function Home() {
 
   const isSearchActive = !!query;
   const isTypeActive = activeType !== null;
-  
+
   let displayPokemon = listPokemon;
   let displayLoading = listLoading;
   let displayError = listError;
   let displayTotal = listTotal;
-  
+
   if (isSearchActive) {
     displayPokemon = searchPokemon;
     displayLoading = searchLoading;
@@ -110,7 +110,7 @@ export default function Home() {
     clearSearch();
     setPage(1);
   };
-  
+
   const handleSelectType = (type: string | null) => {
     clearSearch();
     setActiveType(type);
@@ -127,7 +127,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-background">
       <AmbientBackground />
       <Header />
-      
+
       <main className="flex-1 container mx-auto px-4 md:px-6 py-8 relative z-10">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
@@ -135,24 +135,24 @@ export default function Home() {
               <h1 className="text-3xl font-bold tracking-tight">Explore Pokémon</h1>
               <p className="text-muted-foreground mt-1">Discover stats, types, and abilities.</p>
             </div>
-            
+
             <div className="w-full md:w-auto flex-shrink-0">
               <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />
             </div>
           </div>
-          
+
           <div className="pt-2">
-            <TypeFilter 
-              activeType={activeType} 
-              onSelectType={handleSelectType} 
+            <TypeFilter
+              activeType={activeType}
+              onSelectType={handleSelectType}
             />
           </div>
-          
+
           {displayTotal === 0 && !displayLoading ? (
             <EmptyState message={activeType === "favourites" ? "No favourites yet! Click the heart icon on any Pokémon to add them here." : "Pokémon not found."} />
           ) : (
             <>
-              <PokemonGrid 
+              <PokemonGrid
                 pokemon={displayPokemon}
                 isLoading={displayLoading}
                 error={displayError}
@@ -162,7 +162,7 @@ export default function Home() {
                   else loadPage(page, pageSize);
                 }}
               />
-              
+
               {!displayLoading && displayTotal > 0 && (
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 py-4 border-t border-border/50">
                   <div className="flex items-center gap-2">
@@ -180,24 +180,24 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <Pagination className="w-auto mx-0">
                     <PaginationContent>
                       <PaginationItem>
-                        <PaginationPrevious 
+                        <PaginationPrevious
                           onClick={() => setPage(p => Math.max(1, p - 1))}
-                          className={page <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"} 
+                          className={page <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
                         />
                       </PaginationItem>
-                      
+
                       <PaginationItem className="hidden sm:inline-block">
                         <span className="text-sm px-4">
                           Page {page} of {totalPages}
                         </span>
                       </PaginationItem>
-                      
+
                       <PaginationItem>
-                        <PaginationNext 
+                        <PaginationNext
                           onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                           className={page >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
                         />

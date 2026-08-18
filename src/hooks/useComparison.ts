@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { CompareSelection } from "@/types/pokemon";
+import { PokemonDetail } from "@/types/pokemon";
 
 const COMPARE_KEY = "pokedex-compare";
 
 export function useComparison() {
-  const [selections, setSelections] = useState<CompareSelection[]>([]);
+  const [selections, setSelections] = useState<PokemonDetail[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function useComparison() {
     }
   }, []);
 
-  const addSelection = useCallback((pokemon: CompareSelection) => {
+  const addSelection = useCallback((pokemon: PokemonDetail) => {
     setSelections((prev) => {
       if (prev.length >= 2) return prev; // max 2
       if (prev.some((p) => p.id === pokemon.id)) return prev;
@@ -61,7 +61,7 @@ export function useComparison() {
     return selections.some((p) => p.id === id);
   }, [selections]);
 
-  const toggleSelection = useCallback((pokemon: CompareSelection) => {
+  const toggleSelection = useCallback((pokemon: PokemonDetail) => {
     if (isSelected(pokemon.id)) {
       removeSelection(pokemon.id);
     } else {

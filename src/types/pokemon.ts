@@ -4,7 +4,7 @@ export interface PokemonListItem {
   displayName: string;
   types: PokemonType[];
   spriteUrl: string;
-  isFavourited: boolean;
+  isFavourited?: boolean;
 }
 
 export interface PokemonType {
@@ -52,7 +52,7 @@ export interface TypePokemonList {
 export interface Favourite {
   id: number;
   name: string;
-  savedAt: number;
+  savedAt?: number;
 }
 
 export interface CompareSelection {
